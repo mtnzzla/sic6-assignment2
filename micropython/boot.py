@@ -1,9 +1,10 @@
 import network
 import time
+import mip
 from umqtt.simple import MQTTClient
 
-SSID = 'Wokwi-GUEST'
-PWD = ''
+SSID = 'Reiji'
+PWD = 'loliloliloli'
 
 print("Menyambungkan WiFi", end="")
 sta_if = network.WLAN(network.STA_IF)
@@ -13,3 +14,5 @@ while not sta_if.isconnected():
   print(".", end="")
   time.sleep(1)
 print(" Tersambung!")
+
+mip.install("micropython-urequests")

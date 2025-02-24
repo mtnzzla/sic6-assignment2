@@ -1,5 +1,4 @@
-import time
-import ujson
+import time, ujson, urequests
 from machine import Pin, time_pulse_us
 
 DEVICE_LABEL = "distance-meter"
@@ -42,14 +41,17 @@ while True:
         status = "Dekat"
     else:
         status = "Sangat Dekat"
-    data = ujson.dumps({
+    data = {
         "distance": {
             "value": distance,
             "context": {
                 "status": status
             }
         }
-    })
-    client.publish(UBIDOTS_TOPIC, data)
+    }
+    
     print(f"Distance: {distance}cm, Status: {status}")
-    time.sleep(1)
+    client.publish(UBIDOTS_TOPIC, ujson.dumps(data))
+    response = urequests.post("http://192.168.0.134:5000/distance/", json=data)9
+    print(response.json().get('message'))
+    time.sleep(5)
